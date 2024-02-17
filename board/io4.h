@@ -24,6 +24,9 @@ struct io4_state {
 
 struct io4_ops {
     HRESULT (*poll)(void *ctx, struct io4_state *state);
+    HRESULT (*handle_usb_gpio)(const uint8_t *payload);
+    HRESULT (*handle_usb_pwm)(const uint8_t *payload);
+    HRESULT (*handle_usb_unique_io)(const uint8_t *payload);
 };
 
 HRESULT io4_hook_init(

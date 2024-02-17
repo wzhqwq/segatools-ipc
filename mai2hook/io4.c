@@ -4,17 +4,23 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "board/io4.h"
-
+#include "mai2hook/io4.h"
 #include "mai2hook/mai2-dll.h"
 
 #include "util/dprintf.h"
 
 static HRESULT mai2_io4_poll(void *ctx, struct io4_state *state);
+static HRESULT mai2_io4_handle_gpio(const uint8_t *payload);
+static HRESULT mai2_io4_handle_unique_io(const uint8_t *payload);
 
 static const struct io4_ops mai2_io4_ops = {
     .poll = mai2_io4_poll,
+    .handle_usb_gpio = mai2_io4_handle_gpio,
+    .handle_usb_pwm = NULL,
+    .handle_usb_unique_io = mai2_io4_handle_unique_io,
 };
+
+struct io4_state rolling_state;
 
 HRESULT mai2_io4_hook_init(const struct io4_config *cfg)
 {
@@ -143,5 +149,17 @@ static HRESULT mai2_io4_poll(void *ctx, struct io4_state *state)
         state->buttons[1] |= 1 << 4;
     }
 
+    return S_OK;
+}
+
+static HRESULT mai2_io4_handle_gpio(const uint8_t *payload)
+{
+    int state = payload[0] << 8 | payload[1];
+
+    return S_OK;
+}
+
+static HRESULT mai2_io4_handle_unique_io(const uint8_t *payload)
+{
     return S_OK;
 }
