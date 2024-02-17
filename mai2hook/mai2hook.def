@@ -17,3 +17,4 @@ EXPORTS
     mai2_io_get_opbtns
     mai2_io_init
     mai2_io_poll
+    mai2_io_led_set_color

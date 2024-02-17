@@ -13,6 +13,7 @@
 #include "mai2hook/io4.h"
 #include "mai2hook/mai2-dll.h"
 #include "mai2hook/unity.h"
+#include "mai2hook/led.h"
 
 #include "platform/platform.h"
 
@@ -71,6 +72,12 @@ static DWORD CALLBACK mai2_pre_startup(void)
     }
 
     hr = mai2_io4_hook_init(&mai2_hook_cfg.io4);
+
+    if (FAILED(hr)) {
+        goto fail;
+    }
+
+    hr = mai2_led_hook_init(&mai2_hook_cfg.led, 1, mai2_hook_mod);
 
     if (FAILED(hr)) {
         goto fail;

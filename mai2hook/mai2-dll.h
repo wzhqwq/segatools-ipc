@@ -10,6 +10,7 @@ struct mai2_dll {
     HRESULT (*poll)(void);
     void (*get_opbtns)(uint8_t *opbtn);
     void (*get_gamebtns)(uint16_t *player1, uint16_t *player2);
+    void (*led_set_color)(uint8_t led, uint8_t r, uint8_t g, uint8_t b);
 };
 
 struct mai2_dll_config {

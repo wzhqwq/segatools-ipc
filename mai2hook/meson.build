@@ -27,5 +27,7 @@ shared_library(
         'mai2-dll.h',
         'unity.h',
         'unity.c',
+        'led.h',
+        'led.c',
     ],
 )

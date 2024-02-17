@@ -65,3 +65,13 @@ void mai2_io_get_opbtns(uint8_t *opbtn);
    Minimum API version: 0x0100 */
 
 void mai2_io_get_gamebtns(uint16_t *player1, uint16_t *player2);
+
+/*
+    Change the color and brightness of any LED
+
+    - led: Address of the LED to change.
+    - r, g, b: Primary color intensity, from 0 to 255 inclusive.
+
+    Minimum API version: 0x0100
+*/
+void mai2_io_led_set_color(uint8_t led, uint8_t r, uint8_t g, uint8_t b);

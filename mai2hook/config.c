@@ -8,6 +8,7 @@
 #include "hooklib/gfx.h"
 
 #include "mai2hook/config.h"
+#include "mai2hook/led.h"
 
 #include "platform/config.h"
 
@@ -27,6 +28,16 @@ void mai2_dll_config_load(
             filename);
 }
 
+void led_config_load(
+        struct led_config *cfg,
+        const wchar_t *filename)
+{
+    assert(cfg != NULL);
+    assert(filename != NULL);
+
+    cfg->enable = GetPrivateProfileIntW(L"led", L"enable", 1, filename);
+}
+
 void mai2_hook_config_load(
         struct mai2_hook_config *cfg,
         const wchar_t *filename)
@@ -40,4 +51,5 @@ void mai2_hook_config_load(
     io4_config_load(&cfg->io4, filename);
     gfx_config_load(&cfg->gfx, filename);
     mai2_dll_config_load(&cfg->dll, filename);
+    led_config_load(&cfg->led, filename);
 }

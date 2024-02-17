@@ -6,6 +6,8 @@
 #include "mai2io/mai2io.h"
 #include "mai2io/config.h"
 
+#include "util/dprintf.h"
+
 static uint8_t mai2_opbtn;
 static uint16_t mai2_player1_btn;
 static uint16_t mai2_player2_btn;
@@ -130,4 +132,8 @@ void mai2_io_get_gamebtns(uint16_t *player1, uint16_t *player2)
     if (player2 != NULL ){
         *player2 = mai2_player2_btn;
     }
+}
+
+void mai2_io_led_set_color(uint8_t led, uint8_t r, uint8_t g, uint8_t b) {
+    dprintf("LED %d: R: %d, G: %d, B: %d\n", led, r, g, b);
 }

@@ -4,8 +4,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "board/aime-dll.h"
-#include "board/sg-led.h"
 #include "board/sg-nfc.h"
 #include "board/sg-reader.h"
 
@@ -44,6 +42,8 @@ static uint8_t sg_reader_written_bytes[520];
 static uint8_t sg_reader_readable_bytes[520];
 static struct sg_nfc sg_reader_nfc;
 static struct sg_led sg_reader_led;
+
+struct sg_led *sg_reader_custom_led = NULL;
 
 HRESULT sg_reader_hook_init(
         const struct aime_config *cfg,
@@ -152,7 +152,7 @@ static HRESULT sg_reader_handle_irp_locked(struct irp *irp)
             sg_reader_uart.written.pos);
 
     sg_led_transact(
-            &sg_reader_led,
+            sg_reader_custom_led ? sg_reader_custom_led : &sg_reader_led,
             &sg_reader_uart.readable,
             sg_reader_uart.written.bytes,
             sg_reader_uart.written.pos);
