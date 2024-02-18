@@ -191,18 +191,12 @@ static BOOL WINAPI my_SetupDiEnumDeviceInterfaces(
         DWORD MemberIndex,
         SP_DEVICE_INTERFACE_DATA *DeviceInterfaceData)
 {
-    const struct setupapi_class *class_;
+    const struct setupapi_class *class_ = NULL;
     size_t i;
 
     if (    DeviceInfoSet == INVALID_HANDLE_VALUE ||
             DeviceInterfaceData == NULL ||
             DeviceInterfaceData->cbSize != sizeof(*DeviceInterfaceData)) {
-        goto pass;
-    }
-
-    if (MemberIndex > 0) {
-        MemberIndex--;
-
         goto pass;
     }
 
@@ -212,6 +206,11 @@ static BOOL WINAPI my_SetupDiEnumDeviceInterfaces(
             i < setupapi_nclasses && class_ == NULL ;
             i++) {
         if (DeviceInfoSet == setupapi_classes[i].cur_handle) {
+            if (MemberIndex > 0) {
+                MemberIndex--;
+                continue;
+            }
+
             class_ = &setupapi_classes[i];
 
             dprintf("SetupAPI: Interface {%08lx-...} -> Device node %S\n",
@@ -223,6 +222,8 @@ static BOOL WINAPI my_SetupDiEnumDeviceInterfaces(
                     sizeof(GUID));
             DeviceInterfaceData->Flags = SPINT_ACTIVE;
             DeviceInterfaceData->Reserved = (ULONG_PTR) class_->path;
+
+            break;
         }
     }
 
