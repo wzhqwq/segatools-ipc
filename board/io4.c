@@ -85,12 +85,11 @@ static const wchar_t io4_prod[] =
         /* "Function" (N.B. all values are in hex) */
 
         L"GOUT=14_"                 /* General-purpose output */
-        L"PWMOUT=14_"               /* PWM output */
         L"ADIN=8,E_"                /* ADC inputs */
         L"ROTIN=4_"                 /* Rotary inputs */
         L"COININ=2_"                /* Coin inputs */
         L"SWIN=2,E_"                /* Switch inputs */
-        L"UQ1=41,6"                 /* "Unique function 1 (1~9 functions, 1~4 slots)" */
+        L"UQ1=41,6"                 /* "Unique function 1 (1~9 functions, 1~4 params mai2(cmd, size))" */
         ;
 
 /*

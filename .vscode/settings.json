@@ -1,3 +1,24 @@
 {
-  "editor.formatOnSave": false
+  "editor.formatOnSave": false,
+  "files.associations": {
+    "*.ejs": "html",
+    "*.cjson": "jsonc",
+    "*.wxss": "css",
+    "*.wxs": "javascript",
+    "Makefile.local": "makefile",
+    "cstdlib": "c",
+    "mai2-dll.h": "c",
+    "config.h": "c",
+    "sg-reader.h": "c",
+    "setupapi.h": "c",
+    "dll.h": "c",
+    "pe.h": "c",
+    "amdaemon-hook.h": "c",
+    "table.h": "c",
+    "stddef.h": "c",
+    "compare": "c",
+    "cstdint": "c",
+    "com-proxy.h": "c"
+},
+  "editor.tabSize": 4
 }

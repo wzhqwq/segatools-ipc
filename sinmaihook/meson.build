@@ -1,0 +1,31 @@
+shared_library(
+    'sinmai_hook',
+    name_prefix : '',
+    include_directories: inc,
+    implicit_include_directories : false,
+    c_pch : '../precompiled.h',
+    dependencies : [
+        capnhook.get_variable('hook_dep'),
+        capnhook.get_variable('hooklib_dep'),
+    ],
+    link_with : [
+        util_lib,
+    ],
+    sources : [
+        'dllmain.c',
+#        'amdaemon-hook.c',
+#        'amdaemon-hook.h',
+        'unity.c',
+        'unity.h',
+        'touch-panel.c',
+        'touch-panel.h',
+        'dynamic-inject.c',
+        'dynamic-inject.h',
+        'iohook-dynamic.c',
+        'iohook-dynamic.h',
+        'serial-dynamic.c',
+        'serial-dynamic.h',
+        'reg.c',
+        'reg.h',
+    ],
+)
