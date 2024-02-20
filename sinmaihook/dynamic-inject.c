@@ -50,10 +50,6 @@ static FARPROC my_GetProcAddress(HMODULE module, const char *name)
 
     if (result != NULL)
     {
-        if (strstr(name, "Reg") != NULL)
-        {
-            dprintf("GetProcAddress: %s\n", name);
-        }
         // dprintf("GetProcAddress: %s\n", name);
         for (size_t i = 0; i < dynamic_injected_count; i++)
         {

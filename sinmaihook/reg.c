@@ -185,7 +185,6 @@ static LSTATUS WINAPI hook_RegOpenKeyExW(
         if (serialComm_handle == NULL)
         {
             serialComm_handle = *out;
-            dprintf("Serial comm key opened\n");
         }
     }
     LeaveCriticalSection(&reg_hook_lock);
@@ -198,7 +197,6 @@ static LSTATUS WINAPI hook_RegCloseKey(HKEY handle)
     EnterCriticalSection(&reg_hook_lock);
     if (handle == serialComm_handle)
     {
-        dprintf("Serial comm key closed\n");
         serialComm_handle = NULL;
     }
     LeaveCriticalSection(&reg_hook_lock);
@@ -218,7 +216,6 @@ static LSTATUS WINAPI hook_RegQueryValueExW(
 
     assert(name != NULL);
 
-    dprintf("RegQueryValueExW: %S %d %d %p %p\n", name, handle, serialComm_handle, bytes, nbytes);
     EnterCriticalSection(&reg_hook_lock);
     if (handle == serialComm_handle)
     {
@@ -247,7 +244,7 @@ static LSTATUS WINAPI hook_RegQueryValueExW(
                             goto RegQueryValueExW_pass;
                         }
                         memcpy(bytes, serialComm_vals[i].value, nbytes_needed);
-                        dprintf("Read serial comm value: %S -> %S\n", name, serialComm_vals[i].value);
+                        // dprintf("Read serial comm value: %S -> %S\n", name, serialComm_vals[i].value);
                     }
 
                     *nbytes = nbytes_needed;
@@ -313,7 +310,7 @@ static LSTATUS WINAPI hook_RegEnumValueW(
                     goto RegEnumValueW_pass;
                 }
                 memcpy(name, serialComm_vals[index].name, name_nbytes_needed);
-                dprintf("Enumerate serial comm name: %S\n", serialComm_vals[index].name);
+                // dprintf("Enumerate serial comm name: %S\n", serialComm_vals[index].name);
             }
             *name_nbytes = name_nbytes_needed;
         }
@@ -329,7 +326,7 @@ static LSTATUS WINAPI hook_RegEnumValueW(
                     goto RegEnumValueW_pass;
                 }
                 memcpy(bytes, serialComm_vals[index].value, nbytes_needed);
-                dprintf("Enumerate serial comm value: %S -> %S\n", serialComm_vals[index].name, serialComm_vals[index].value);
+                // dprintf("Enumerate serial comm value: %S -> %S\n", serialComm_vals[index].name, serialComm_vals[index].value);
             }
             *nbytes = nbytes_needed;
         }

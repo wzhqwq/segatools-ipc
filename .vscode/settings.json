@@ -18,7 +18,8 @@
     "stddef.h": "c",
     "compare": "c",
     "cstdint": "c",
-    "com-proxy.h": "c"
+    "com-proxy.h": "c",
+    "time.h": "c"
 },
   "editor.tabSize": 4
 }

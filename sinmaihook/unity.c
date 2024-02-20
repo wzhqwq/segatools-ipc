@@ -67,6 +67,7 @@ static HMODULE WINAPI my_LoadLibraryW(const wchar_t *name)
 
     if (!already_loaded && result != NULL) {
         name_len = wcslen(name);
+        // dprintf("LoadLibraryW: %S\n", name);
 
         for (size_t i = 0; i < target_modules_len; i++) {
             target_module = target_modules[i];
