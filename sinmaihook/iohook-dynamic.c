@@ -87,6 +87,12 @@ static BOOL WINAPI iohook_DeviceIoControl(
         uint32_t *lpBytesReturned,
         OVERLAPPED *lpOverlapped);
 
+static BOOL WINAPI iohook_GetOverlappedResult(
+        HANDLE hFile,
+        OVERLAPPED *lpOverlapped,
+        uint32_t *lpNumberOfBytesTransferred,
+        BOOL bWait);
+
 /* Links */
 
 static BOOL (WINAPI *next_CloseHandle)(HANDLE fd);
@@ -147,6 +153,12 @@ static BOOL (WINAPI *next_SetFilePointerEx)(
 
 static BOOL (WINAPI *next_FlushFileBuffers)(HANDLE fd);
 
+static BOOL (WINAPI *next_GetOverlappedResult)(
+        HANDLE hFile,
+        OVERLAPPED *lpOverlapped,
+        uint32_t *lpNumberOfBytesTransferred,
+        BOOL bWait);
+
 /* Hook symbol table */
 
 static const struct hook_symbol iohook_kernel32_syms[] = {
@@ -186,6 +198,10 @@ static const struct hook_symbol iohook_kernel32_syms[] = {
         .name   = "FlushFileBuffers",
         .patch  = iohook_FlushFileBuffers,
         .link   = (void *) &next_FlushFileBuffers,
+    }, {
+        .name   = "GetOverlappedResult",
+        .patch  = iohook_GetOverlappedResult,
+        .link   = (void *) &next_GetOverlappedResult,
     },
 };
 
@@ -381,7 +397,7 @@ static BOOL WINAPI iohook_ReadFile(
     assert(irp.read.pos <= irp.read.nbytes);
 
     return iohook_overlapped_result(
-            lpNumberOfBytesRead,
+            irp.open_flags & FILE_FLAG_OVERLAPPED ? NULL : lpNumberOfBytesRead,
             lpOverlapped,
             irp.read.pos);
 }
@@ -429,7 +445,7 @@ static BOOL WINAPI iohook_WriteFile(
     assert(irp.write.pos <= irp.write.nbytes);
 
     return iohook_overlapped_result(
-            lpNumberOfBytesWritten,
+            irp.open_flags & FILE_FLAG_OVERLAPPED ? NULL : lpNumberOfBytesWritten,
             lpOverlapped,
             irp.write.pos);
 }
@@ -609,4 +625,16 @@ static BOOL WINAPI iohook_DeviceIoControl(
             lpBytesReturned,
             lpOverlapped,
             irp.read.pos);
+}
+
+static BOOL WINAPI iohook_GetOverlappedResult(
+        HANDLE hFile,
+        OVERLAPPED *lpOverlapped,
+        uint32_t *lpNumberOfBytesTransferred,
+        BOOL bWait)
+{
+    *lpNumberOfBytesTransferred = lpOverlapped->InternalHigh;
+    SetLastError(ERROR_SUCCESS);
+    return TRUE;
+    // return next_GetOverlappedResult(hFile, lpOverlapped, lpNumberOfBytesTransferred, bWait);
 }
