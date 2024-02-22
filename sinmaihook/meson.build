@@ -27,5 +27,9 @@ shared_library(
         'serial-dynamic.h',
         'reg.c',
         'reg.h',
+        'led.c',
+        'led.h',
+        'led-cmd.c',
+        'led-cmd.h',
     ],
 )
