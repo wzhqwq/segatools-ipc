@@ -10,6 +10,8 @@
 #define LED_NODE_ID 17
 #define LED_FIRM_SUM 44535
 
+HRESULT led_hook_init();
+
 struct led_color_32
 {
     uint8_t r;

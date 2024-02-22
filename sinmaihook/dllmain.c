@@ -11,6 +11,7 @@
 #include "sinmaihook/dynamic-inject.h"
 #include "sinmaihook/touch-panel.h"
 #include "sinmaihook/reg.h"
+#include "sinmaihook/led.h"
 
 static process_entry_t app_startup;
 
@@ -28,6 +29,8 @@ static DWORD CALLBACK sinmai_pre_startup(void)
     touch_panel_hook_init();
 
     reg_hook_init();
+
+    led_hook_init();
 
     dprintf("---  End  %s ---\n", __func__);
 
